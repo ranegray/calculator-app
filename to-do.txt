@@ -1,0 +1,18 @@
+x needs 19 divs
+    x clear
+    x positive / negative
+    x percentage
+    x divide
+    x multiply
+    x add
+    x subtract
+    x 10 digits
+    x equals
+    x decimal
+
+clear and all clear funcitonality
+    - remove and add classList hidden depending on whether just clearing out current entry or clearing everything
+
+operator buttons css
+    - keep buttons highlighted if currently the selected operator
+
