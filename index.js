@@ -1,50 +1,82 @@
-const add = (n1, n2) => console.log(n1 + n2);
-const subtract = (n1, n2) => console.log(n1 - n2);
-const divide = (n1, n2) => console.log(n1 / n2);
-const multiply = (n1, n2) => console.log(n1 * n2);
+const calcDisplay = document.querySelector('#calc-display');
+const clearBtn = document.querySelector('.clear');
+const digits = document.querySelectorAll('.digit');
+const operators = document.querySelectorAll('.operator');
+const equals = document.querySelector('.equal');
+let num1 = '';
+let num2 = '';
+let operator = null;
+let shouldResetDisplay = false;
+
+const add = (n1, n2) => {
+    return Number(n1) + Number(n2);
+};
+const subtract = (n1, n2) => {
+    return n1 - n2
+};
+const divide = (n1, n2) => {
+    if (n2 === 0) {
+        return null
+    }else {
+        return n1 / n2
+    }
+};
+const multiply = (n1, n2) => {
+    return n1 * n2
+};
 
 const operate = (operator, n1, n2) => {
     switch(operator){
         case '+':
-            add(n1, n2);
-            break;
+            return add(n1, n2);
         case '-':
-            subtract(n1, n2);
-            break;
+            return subtract(n1, n2);
         case '/':
-            divide(n1, n2);
-            break;
+            return divide(n1, n2);
         case '*':
-            multiply(n1, n2);
-            break;
+            return multiply(n1, n2);
     }
 
 };
 
-const calcDisplay = document.querySelector('#calc-display');
-const clear = document.querySelector('.clear');
-const digits = document.querySelectorAll('.digit');
-const operators = document.querySelectorAll('.operator');
-const equals = document.querySelector('.equal');
-
-// clears current setting
-const clearDisplay = () => calcDisplay.textContent = 0;
-clear.addEventListener('click', clearDisplay);
-
-// stop calc-display from breaking by limiting digits to 9. this might need to be an event listener on calcDisplay waiting for more than a certain # of digits
-//const limit = () => calcDisplay.textContent.length > 9 ? calcDisplay.textContent = 'ERROR' : calcDisplay.textContent = 0;
-
-// adds event listener and sets staging area for operations
 digits.forEach(digit => {
-    digit.addEventListener('click', () => {
-        if (calcDisplay.innerHTML == 0) {
-            calcDisplay.textContent = digit.innerHTML;
-        }
-        calcDisplay.insertAdjacentText('beforeend', digit.innerHTML);
-    })
+    digit.addEventListener('click', () => appendNum(digit.textContent))
 });
 
-// grab calcDisplay.value to perform math
+operators.forEach(oper => {
+    oper.addEventListener('click', () => setOperator(oper.innerHTML))
+});
 
-//perform operate. will need a lot more functionality in this alone.
-equals.addEventListener('click', operate)
+const setOperator = (symbol) => {
+    operator = symbol;
+    shouldResetDisplay = true;   
+    num1 = calcDisplay.innerHTML; 
+}
+
+const appendNum = (num) => {
+    if (calcDisplay.textContent === 0 || shouldResetDisplay) {
+        resetDisplay();
+    }
+    calcDisplay.textContent += num;
+}
+
+const resetDisplay = () => {
+    calcDisplay.textContent = '';
+}
+
+const calculate = () => {
+    num2 = calcDisplay.innerHTML;
+    calcDisplay.textContent = operate(operator, num1, num2);
+}
+
+equals.addEventListener('click', calculate)
+
+const clear = () => {
+    num1 = '';
+    num2 = '';
+    operator = null;
+    shouldResetDisplay = false;
+    calcDisplay.textContent = 0;
+}
+
+clearBtn.addEventListener('click', clear);
