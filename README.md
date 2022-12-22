@@ -1,4 +1,5 @@
 # calculator-app
+
 building the iOS calculator app from scratch using pure HTML/CSS/JS
 
 as of oct 19 22, calculator is looking like this:
