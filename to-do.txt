@@ -24,3 +24,6 @@ add logic to listenerevent on digit
     - if display is zero can’t append zeros and change instead just once to the proper number and begin. unless it’s a decimal 
     - if display has less than 10 length no more
 
+TODO
+[ ] after equals you can still append numbers to solution.
+[ ] chaining operations, operating on only a single pair at a time
