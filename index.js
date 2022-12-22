@@ -3,6 +3,7 @@ const clearBtn = document.querySelector('.clear');
 const digits = document.querySelectorAll('.digit');
 const operators = document.querySelectorAll('.operator');
 const equals = document.querySelector('.equal');
+const decimal = document.querySelector('.decimal')
 let num1 = null;
 let num2 = null;
 let operator = null;
@@ -15,10 +16,10 @@ const subtract = (n1, n2) => {
     return n1 - n2
 };
 const divide = (n1, n2) => {
-    if (isFinite(parseFloat(n1 / n2).toFixed(2))) {
-        return parseFloat(n1 / n2).toFixed(2);
+    if (isNaN(n1 / n2)) {
+        return n1 / n2;
     } else {
-        return 'ERROR';
+        return 'Error';
     }
 };
 const multiply = (n1, n2) => {
@@ -50,7 +51,7 @@ operators.forEach(oper => {
 const setOperator = (symbol) => {
     if (num1 !== null){
         num2 = calcDisplay.innerHTML;
-        calcDisplay.textContent = operate(operator, num1, num2);
+        calcDisplay.textContent = Math.round(((operate(operator, num1, num2)) + Number.EPSILON) * 100) / 100;
         num1 = null;
         shouldResetDisplay = true;
     }
@@ -67,8 +68,19 @@ const setOperator = (symbol) => {
     num1 = calcDisplay.innerHTML; 
 }
 
+const appendDec = () => {
+    if (calcDisplay.textContent.includes('.')){
+        return;
+    } else {
+        calcDisplay.textContent += '.';
+        shouldResetDisplay = false;
+    }
+}
+
+decimal.addEventListener('click', appendDec)
+
 const appendNum = (num) => {
-    if (calcDisplay.textContent === 0 || shouldResetDisplay) {
+    if (shouldResetDisplay) {
         resetDisplay();
         shouldResetDisplay = false;
     }
@@ -82,7 +94,7 @@ const resetDisplay = () => {
 const calculate = () => {
     if (operator !== null){
         num2 = calcDisplay.innerHTML;
-        calcDisplay.textContent = operate(operator, num1, num2);
+        calcDisplay.textContent = Math.round(((operate(operator, num1, num2)) + Number.EPSILON) * 100) / 100;
     } else {
         return;
     }
