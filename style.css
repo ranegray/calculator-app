@@ -24,6 +24,8 @@ html {
 }
 
 #calc-display {
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
   font-size: 7rem;
   font-weight: 200;
@@ -71,7 +73,18 @@ button {
   background-color: #f59906;
 }
 
-.operator:hover,
+.operator:hover {
+  transition: 1000ms;
+  background-color: #fff;
+  color: #f59906;
+}
+
+.operator:focus {
+  transition: 1000ms;
+  background-color: #fff;
+  color: #f59906;
+}
+
 .equal:hover {
   transition: 1000ms;
   background-color: #fff;

@@ -15,13 +15,13 @@ const math = {
     return Number(oper1) + Number(oper2);
   },
   subtract(oper1, oper2) {
-    return oper1 - oper2;
+    return Number(oper1) - Number(oper2);
   },
   divide(oper1, oper2) {
-    return !(oper1 / oper2).isNaN ? "Error" : oper1 / oper2;
+    return oper2 == "0" ? "Error" : Number(oper1) / Number(oper2);
   },
   multiply(oper1, oper2) {
-    return oper1 * oper2;
+    return Number(oper1) * Number(oper2);
   },
 };
 
@@ -50,22 +50,27 @@ const clear = () => {
   calcDisplay.textContent = 0;
 };
 
-const setOperator = (symbol) => {
-  if (num1 !== null) {
+const calculate = () => {
+  if (operator !== null) {
     num2 = calcDisplay.innerHTML;
-    // calcDisplay.textContent = Math.round(
-    //   (operate(operator, num1, num2) * 1000) / 1000
-    // );
-    num1 = null;
-    shouldResetDisplay = true;
+    calcDisplay.textContent = operate(operator, num1, num2);
   }
+};
 
+const setOperator = (symbol) => {
   if (symbol === "+" || symbol === "-") {
     operator = symbol;
   } else if (symbol === "×") {
     operator = "*";
   } else if (symbol === "÷") {
     operator = "/";
+  }
+
+  if (num1 !== null) {
+    num2 = calcDisplay.innerHTML;
+    calculate();
+    num1 = null;
+    shouldResetDisplay = true;
   }
 
   shouldResetDisplay = true;
@@ -85,15 +90,6 @@ const appendNum = (num) => {
     shouldResetDisplay = false;
   }
   calcDisplay.textContent += num;
-};
-
-const calculate = () => {
-  if (operator !== null) {
-    num2 = calcDisplay.innerHTML;
-    calcDisplay.textContent = Math.round(
-      (operate(operator, num1, num2) * 1000) / 1000
-    );
-  }
 };
 
 equals.addEventListener("click", calculate);
